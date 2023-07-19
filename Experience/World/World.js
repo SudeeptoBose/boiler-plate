@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import Experience from '../Experience'
-
+import Environment from './Environment'
 import Model from './Model'
 
 export default class World{
@@ -13,6 +13,7 @@ export default class World{
         this.resources = this.experience.resources
 
         this.resources.on('ready', () =>{
+            this.environment = new Environment()
             this.model = new Model()
         })
 
@@ -28,6 +29,9 @@ export default class World{
 
     update()
     {
-
+        if(this.model)
+        {
+            this.model.update()
+        }
     }
 }

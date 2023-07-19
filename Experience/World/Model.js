@@ -5,17 +5,45 @@ export default class Model{
     constructor(){
         this.experience = new Experience()
         this.scene = this.experience.scene
-
-
-        const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-        const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-        const cube = new THREE.Mesh( geometry, material );
-        this.scene.add( cube );
+        this.resources = this.experience.resources
+        this.assets = this.resources.items
+        this.duck = this.assets.model.scene
+        this.time = this.experience.time
+        console.log(this.assets)
+        this.setModel()
+        this.setMesh()
+        // this.setMeshAnimation()
 
     }
 
+    setModel()
+    {
+        this.scene.add(this.duck)
+        this.duck.position.x = 1
+        this.duck.position.y = -0.5
+    }
 
+    setMesh()
+    {
+        const geometry = new THREE.OctahedronGeometry(1, 30);
+        const material = new THREE.MeshStandardMaterial( { 
+            map: this.assets.baseColor,
+            aoMap: this.assets.ambientOcclusion,
+            displacementMap: this.assets.heightMap,
+            displacementScale: 0.1,
+            normalMap: this.assets.normalMap,
+            roughnessMap:this.assets.roughnessMap,
+            color: 0x00ff00 
+        } );
+        this.mesh = new THREE.Mesh( geometry, material );
+        this.scene.add( this.mesh );
+        this.mesh.position.x = -1
+    }
     
+    setMeshAnimation()
+    {
+        
+    }
 
     resize()
     {
@@ -24,6 +52,6 @@ export default class Model{
 
     update()
     {
-
+        this.mesh.rotation.y += 0.01
     }
 }
